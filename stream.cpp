@@ -3,6 +3,7 @@
 #include <crow/nodes/spammer.h>
 
 #include <crow/gates/udpgate.h>
+#include <wels/codec_api.h>
 
 #include <chrono>
 #include <thread>
@@ -31,10 +32,34 @@ void close_camera()
 	is_open = false;
 }
 
+std::string mode = "h264";
+
 int main(int argc, char** argv)
 {
+	ISVCEncoder *encoder_ = nullptr;
+	int rv = WelsCreateSVCEncoder (&encoder_);
+	assert (0 == rv);
+	assert (encoder_ != nullptr);
+
+	SEncParamBase param;
+	memset (&param, 0, sizeof (SEncParamBase));
+	param.iUsageType = CAMERA_VIDEO_REAL_TIME;
+	param.fMaxFrameRate = 30;
+	param.iPicWidth = 640;
+	param.iPicHeight = 480;
+	param.iTargetBitrate = 5000000;
+	encoder_->Initialize (&param);
+
+	if (argc < 2)
+	{
+		nos::println("Usage: stream UDPPORT");
+		exit(0);
+	}
+
+	int udpport = atoi32(argv[1], 10, nullptr);
+
 	crow::spammer spammer;
-	crow::udpgate udpgate(10009);
+	crow::udpgate udpgate(udpport);
 
 	spammer.bind(1);
 
@@ -60,11 +85,75 @@ int main(int argc, char** argv)
 			}
 
 			cap >> frame;
-			cv::resize(frame, frame3, cv::Size(640 / 4, 480 / 4 ));
-			sts = cv::imencode(".jpg", frame3, buffer);
 
-			nos::println(buffer.size());
-			spammer.send({buffer.data(), buffer.size()});
+			if (mode == "jpg")
+			{
+				cv::resize(frame, frame3, cv::Size(640 / 4, 480 / 4 ));
+				sts = cv::imencode(".jpg", frame3, buffer);
+				nos::println(buffer.size());
+				spammer.send({buffer.data(), buffer.size()});
+			}
+
+			else if (mode == "h264")
+			{
+				cv::Mat imageResized, imageYuv, imageYuvMini;
+				cv::Mat imageYuvCh[3], imageYuvMiniCh[3];
+
+				//resize(frame, imageResized, Size(width, height));
+				cv::cvtColor(frame, imageYuv, cv::COLOR_BGR2YUV);
+				cv::split(imageYuv, imageYuvCh);
+				cv::resize(imageYuv, imageYuvMini, cv::Size(640 / 2, 480 / 2));
+				cv::split(imageYuvMini, imageYuvMiniCh);
+
+				SFrameBSInfo info;
+				memset (&info, 0, sizeof (SFrameBSInfo));
+				SSourcePicture pic;
+				memset (&pic, 0, sizeof (SSourcePicture));
+				pic.iPicWidth = 640;
+				pic.iPicHeight = 480;
+				pic.iColorFormat = videoFormatI420;
+				pic.iStride[0] = imageYuvCh[0].step;
+				pic.iStride[1] = imageYuvMiniCh[1].step;
+				pic.iStride[2] = imageYuvMiniCh[2].step;
+				pic.pData[0] = imageYuvCh[0].data;
+				pic.pData[1] = imageYuvMiniCh[1].data;
+				pic.pData[2] = imageYuvMiniCh[2].data;
+
+
+				//prepare input data
+				rv = encoder_->EncodeFrame (&pic, &info);
+				assert (rv == cmResultSuccess);
+
+				if (info.eFrameType != videoFrameTypeSkip /*&& cbk != nullptr*/)
+				{
+					igris::buffer bufs[info.iLayerNum];
+
+					//output bitstream
+					for (int iLayer = 0; iLayer < info.iLayerNum; iLayer++)
+					{
+						SLayerBSInfo* pLayerBsInfo = &info.sLayerInfo[iLayer];
+
+						int iLayerSize = 0;
+						int iNalIdx = pLayerBsInfo->iNalCount - 1;
+						do
+						{
+							iLayerSize += pLayerBsInfo->pNalLengthInByte[iNalIdx];
+							--iNalIdx;
+						}
+						while (iNalIdx >= 0);
+
+						unsigned char *outBuf = pLayerBsInfo->pBsBuf;
+
+						//nos::println(iLayerSize);
+
+						bufs[iLayer] = {outBuf, (size_t)iLayerSize};
+
+						//outFi.write((char *)outBuf, iLayerSize);
+					}
+
+					spammer.send_v(bufs, 3);
+				}
+			}
 		}
 		else
 		{

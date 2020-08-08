@@ -30,8 +30,14 @@ int main(int argc, char** argv)
 	udpgate.bind(12);
 	subs.bind(1);
 
+	if (argc < 2) 
+	{
+		nos::println("Usage: viewer CROWKER_ADDRESS");
+		exit(0);
+	}
+
 	auto addr = crow::address(argv[1]);
-	crow::start_spin();
+	crow::start_spin_with_select();
 
 	cv::namedWindow("viewer", cv::WINDOW_NORMAL);
 

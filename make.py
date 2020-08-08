@@ -17,6 +17,8 @@ licant.cxx_application("stream",
 		"opencv_imgcodecs",
 		"opencv_imgproc",
 		"opencv_videoio",
+
+		"openh264",
 		
 		"pthread",
 		"igris",
