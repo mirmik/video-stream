@@ -32,7 +32,7 @@ void close_camera()
 	is_open = false;
 }
 
-std::string mode = "h264";
+std::string mode = "jpg";
 
 int main(int argc, char** argv)
 {
@@ -88,8 +88,12 @@ int main(int argc, char** argv)
 
 			if (mode == "jpg")
 			{
-				cv::resize(frame, frame3, cv::Size(640 / 4, 480 / 4 ));
-				sts = cv::imencode(".jpg", frame3, buffer);
+				std::vector<int> params;
+				params.push_back(cv::IMWRITE_JPEG_QUALITY);
+				params.push_back(80);
+
+				cv::resize(frame, frame3, cv::Size(640, 480));
+				sts = cv::imencode(".jpg", frame3, buffer, params);
 				nos::println(buffer.size());
 				spammer.send({buffer.data(), buffer.size()});
 			}

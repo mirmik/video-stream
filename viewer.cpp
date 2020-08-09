@@ -14,7 +14,7 @@ void routine(igris::buffer message)
 	uint8_t U[1024*1024];
 	uint8_t V[1024*1024];
 
-	/*	static int inited = 0;
+		static int inited = 0;
 
 		auto frame = cv::imdecode({message.data(), (int)message.size()}, cv::IMREAD_COLOR);
 
@@ -25,9 +25,9 @@ void routine(igris::buffer message)
 		}
 
 		cv::imshow("viewer", frame);
-		cv::waitKey(1);*/
+		cv::waitKey(1);
 
-	ISVCDecoder *pSvcDecoder;
+/*	ISVCDecoder *pSvcDecoder;
 //input: encoded bitstream start position; should include start code prefix
 	unsigned char *pBuf = (unsigned char *)message.data();
 //input: encoded bit stream length; should include the size of start code prefix
@@ -40,7 +40,7 @@ void routine(igris::buffer message)
 //in-out: for Parsing only: declare and initialize the output bitstream buffer info for parse only, this should never co-exist with Decoding only
 	SParserBsInfo sDstParseInfo;
 	memset(&sDstParseInfo, 0, sizeof(SParserBsInfo));
-	//sDstParseInfo.pDstBuff = new unsigned char[PARSE_SIZE]; //In Parsing only, allocate enough buffer to save transcoded bitstream for a frame
+*/	//sDstParseInfo.pDstBuff = new unsigned char[PARSE_SIZE]; //In Parsing only, allocate enough buffer to save transcoded bitstream for a frame
 
 }
 
