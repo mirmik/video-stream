@@ -3,7 +3,7 @@
 #include <crow/nodes/spammer.h>
 
 #include <crow/gates/udpgate.h>
-#include <wels/codec_api.h>
+//#include <wels/codec_api.h>
 
 #include <chrono>
 #include <thread>
@@ -15,11 +15,13 @@ cv::VideoCapture cap;
 
 void open_camera()
 {
+//	for (int i = 0; i < 10; i++)
 	if (!cap.open(0, cv::CAP_V4L2))
 	{
 		std::cout << "error on camera open" << std::endl;
-		return;
+		exit(0);
 	}
+//	exit(0);
 
 	cap.set(cv::CAP_PROP_FRAME_WIDTH, 640);
 	cap.set(cv::CAP_PROP_FRAME_HEIGHT, 480);
@@ -36,7 +38,10 @@ std::string mode = "jpg";
 
 int main(int argc, char** argv)
 {
-	ISVCEncoder *encoder_ = nullptr;
+	open_camera();
+	close_camera();
+
+/*	ISVCEncoder *encoder_ = nullptr;
 	int rv = WelsCreateSVCEncoder (&encoder_);
 	assert (0 == rv);
 	assert (encoder_ != nullptr);
@@ -49,7 +54,7 @@ int main(int argc, char** argv)
 	param.iPicHeight = 480;
 	param.iTargetBitrate = 5000000;
 	encoder_->Initialize (&param);
-
+*/
 	if (argc < 2)
 	{
 		nos::println("Usage: stream UDPPORT");
@@ -98,7 +103,7 @@ int main(int argc, char** argv)
 				spammer.send({buffer.data(), buffer.size()});
 			}
 
-			else if (mode == "h264")
+/*			else if (mode == "h264")
 			{
 				cv::Mat imageResized, imageYuv, imageYuvMini;
 				cv::Mat imageYuvCh[3], imageYuvMiniCh[3];
@@ -128,7 +133,7 @@ int main(int argc, char** argv)
 				rv = encoder_->EncodeFrame (&pic, &info);
 				assert (rv == cmResultSuccess);
 
-				if (info.eFrameType != videoFrameTypeSkip /*&& cbk != nullptr*/)
+				if (info.eFrameType != videoFrameTypeSkip /*&& cbk != nullptr)
 				{
 					igris::buffer bufs[info.iLayerNum];
 
@@ -157,7 +162,7 @@ int main(int argc, char** argv)
 
 					spammer.send_v(bufs, 3);
 				}
-			}
+			}*/
 		}
 		else
 		{

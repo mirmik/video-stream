@@ -2,7 +2,7 @@
 
 import licant
 
-licant.include("imgui")
+#licant.include("imgui")
 licant.include("crow")
 
 licant.cxx_application("stream",
@@ -18,7 +18,7 @@ licant.cxx_application("stream",
 		"opencv_imgproc",
 		"opencv_videoio",
 
-		"openh264",
+#		"openh264",
 		
 		"pthread",
 		"igris",
