@@ -93,7 +93,7 @@ int main(int argc, char** argv)
 				//cv::resize(frame, frame3, cv::Size(640, 480));
 				sts = cv::imencode(".jpg", frame3, buffer, params);
 				//nos::println(buffer.size());
-				spammer.send({buffer.data(), buffer.size()}, true);
+				spammer.send({(const char*)buffer.data(), buffer.size()}, true);
 				nos::println(buffer.size());
 			}
 		}

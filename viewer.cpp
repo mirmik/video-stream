@@ -8,7 +8,7 @@
 
 //#include <wels/codec_api.h>
 
-void routine(igris::buffer message)
+void routine(std::string_view message)
 {
 	uint8_t Y[1024*1024];
 	uint8_t U[1024*1024];
