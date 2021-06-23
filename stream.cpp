@@ -15,6 +15,9 @@ cv::VideoCapture cap;
 
 int camerano;
 
+int WIDTH;
+int HEIGHT;
+
 void open_camera()
 {
 	if (!cap.open(camerano, cv::CAP_V4L2))
@@ -23,8 +26,8 @@ void open_camera()
 		exit(0);
 	}
 
-	cap.set(cv::CAP_PROP_FRAME_WIDTH, 640);
-	cap.set(cv::CAP_PROP_FRAME_HEIGHT, 480);
+	cap.set(cv::CAP_PROP_FRAME_WIDTH, WIDTH);
+	cap.set(cv::CAP_PROP_FRAME_HEIGHT, HEIGHT);
 	is_open = true;
 }
 
@@ -41,17 +44,22 @@ int main(int argc, char** argv)
 	open_camera();
 	close_camera();
 
-	if (argc < 3)
+	if (argc < 5)
 	{
-		nos::println("Usage: stream UDPPORT CAMERANO");
+		nos::println("Usage: stream UDPPORT CAMERANO WIDTH HEIGHT");
 		exit(0);
 	}
 
 	int udpport = atoi32(argv[1], 10, nullptr);
 	camerano = atoi32(argv[2], 10, nullptr);
 
+	WIDTH = atoi(argv[3]);
+	HEIGHT = atoi(argv[4]);
+
 	crow::spammer spammer;
 	crow::udpgate udpgate(udpport);
+
+	//crow::diagnostic_setup(true, false);
 
 	spammer.bind(1);
 
@@ -79,12 +87,14 @@ int main(int argc, char** argv)
 			{
 				std::vector<int> params;
 				params.push_back(cv::IMWRITE_JPEG_QUALITY);
-				params.push_back(80);
+				params.push_back(50);
 
-				cv::resize(frame, frame3, cv::Size(640, 480));
+				cv::flip(frame, frame3, -1);
+				//cv::resize(frame, frame3, cv::Size(640, 480));
 				sts = cv::imencode(".jpg", frame3, buffer, params);
+				//nos::println(buffer.size());
+				spammer.send({buffer.data(), buffer.size()}, true);
 				nos::println(buffer.size());
-				spammer.send({buffer.data(), buffer.size()});
 			}
 		}
 		else
