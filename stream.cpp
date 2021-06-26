@@ -5,6 +5,7 @@
 #include <nos/print.h>
 #include <crow/gates/udpgate.h>
 
+#include <nos/print.h>
 #include <chrono>
 #include <thread>
 
