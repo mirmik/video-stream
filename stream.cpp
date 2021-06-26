@@ -87,9 +87,9 @@ int main(int argc, char** argv)
 			{
 				std::vector<int> params;
 				params.push_back(cv::IMWRITE_JPEG_QUALITY);
-				params.push_back(50);
+				params.push_back(100);
 
-				sts = cv::imencode(".jpg", gray, buffer, params);
+				sts = cv::imencode(".jpg", frame, buffer, params);
 				spammer.send({(const char*)buffer.data(), buffer.size()}, true);
 				nos::println(buffer.size());
 			}
@@ -102,7 +102,7 @@ int main(int argc, char** argv)
 			}
 		}
 
-		std::this_thread::sleep_for(20ms);
+		std::this_thread::sleep_for(30ms);
 	}
 
 	return 0;
