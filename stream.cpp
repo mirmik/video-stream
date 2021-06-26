@@ -2,8 +2,8 @@
 #include <crow/tower.h>
 #include <crow/nodes/spammer.h>
 
+#include <nos/print.h>
 #include <crow/gates/udpgate.h>
-//#include <wels/codec_api.h>
 
 #include <chrono>
 #include <thread>
@@ -59,8 +59,6 @@ int main(int argc, char** argv)
 	crow::spammer spammer;
 	crow::udpgate udpgate(udpport);
 
-	//crow::diagnostic_setup(true, false);
-
 	spammer.bind(1);
 
 	int sts;
@@ -72,7 +70,7 @@ int main(int argc, char** argv)
 	{
 		std::vector<uint8_t> buffer;
 
-		cv::Mat frame, frame3;
+		cv::Mat frame, frame3, gray;
 
 		if (spammer.count_of_subscribers())
 		{
@@ -82,6 +80,7 @@ int main(int argc, char** argv)
 			}
 
 			cap >> frame;
+			cv::cvtColor(frame, gray, cv::COLOR_BGR2GRAY);
 
 			if (mode == "jpg")
 			{
@@ -90,9 +89,7 @@ int main(int argc, char** argv)
 				params.push_back(50);
 
 				cv::flip(frame, frame3, -1);
-				//cv::resize(frame, frame3, cv::Size(640, 480));
-				sts = cv::imencode(".jpg", frame3, buffer, params);
-				//nos::println(buffer.size());
+				sts = cv::imencode(".jpg", frame, buffer, params);
 				spammer.send({(const char*)buffer.data(), buffer.size()}, true);
 				nos::println(buffer.size());
 			}
