@@ -21,21 +21,24 @@ int HEIGHT;
 
 void open_camera()
 {
+	nos::println("Open camera");
 	if (!cap.open(camerano, cv::CAP_V4L2))
 	{
 		std::cout << "error on camera open" << std::endl;
 		exit(0);
 	}
-
 	cap.set(cv::CAP_PROP_FRAME_WIDTH, WIDTH);
 	cap.set(cv::CAP_PROP_FRAME_HEIGHT, HEIGHT);
 	is_open = true;
+	nos::println("Open camera ... ok");
 }
 
 void close_camera()
 {
+	nos::println("Close camera");
 	cap.release();
 	is_open = false;
+	nos::println("Close camera ... ok");
 }
 
 std::string mode = "jpg";
