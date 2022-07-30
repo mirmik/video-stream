@@ -44,6 +44,7 @@ int main(int argc, char** argv)
 {
 	open_camera();
 	close_camera();
+	crow::enable_diagnostic();
 
 	if (argc < 5)
 	{
