@@ -51,11 +51,11 @@ int main(int argc, char** argv)
 		exit(0);
 	}
 
-	int udpport = atoi32(argv[1], 10, nullptr);
-	camerano = atoi32(argv[2], 10, nullptr);
+	int udpport = igris_atoi32(argv[1], 10, nullptr);
+	camerano = igris_atoi32(argv[2], 10, nullptr);
 
-	WIDTH = atoi(argv[3]);
-	HEIGHT = atoi(argv[4]);
+	WIDTH = igris_atoi32(argv[3], 10, nullptr);
+	HEIGHT = igris_atoi32(argv[4], 10, nullptr);
 
 	crow::spammer spammer;
 	crow::udpgate udpgate(udpport);
@@ -90,7 +90,7 @@ int main(int argc, char** argv)
 				params.push_back(100);
 
 				sts = cv::imencode(".jpg", gray, buffer, params);
-				spammer.send({(const char*)buffer.data(), buffer.size()}, true);
+				spammer.send({(const char*)buffer.data(), buffer.size()});
 				nos::println(buffer.size());
 			}
 		}
