@@ -64,7 +64,6 @@ int main(int argc, char** argv)
 	spammer.bind(1);
 
 	int sts;
-	udpgate.bind(12);
 
 	crow::start_spin();
 

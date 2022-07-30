@@ -53,8 +53,6 @@ int main(int argc, char** argv)
 	crow::create_udpgate(12);
 	crow::spam_subscriber subs(routine);
 	crow::enable_diagnostic();
-
-	udpgate.bind(12);
 	subs.bind(1);
 
 	if (argc < 2)
