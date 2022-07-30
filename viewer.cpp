@@ -50,7 +50,7 @@ void routine(igris::buffer message)
 
 int main(int argc, char** argv)
 {
-	crow::udpgate udpgate(0);
+	crow::create_udpgate(12);
 	crow::spam_subscriber subs(routine);
 	crow::enable_diagnostic();
 

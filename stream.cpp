@@ -59,7 +59,7 @@ int main(int argc, char** argv)
 	HEIGHT = igris_atoi32(argv[4], 10, nullptr);
 
 	crow::spammer spammer;
-	crow::udpgate udpgate(udpport);
+	crow::create_udpgate(12, udpport);
 
 	spammer.bind(1);
 
