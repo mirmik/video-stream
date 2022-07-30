@@ -61,6 +61,11 @@ int main(int argc, char** argv)
 	WIDTH = igris_atoi32(argv[3], 10, nullptr);
 	HEIGHT = igris_atoi32(argv[4], 10, nullptr);
 
+	PRINT(udpport);
+	PRINT(camerano);
+	PRINT(WIDTH);
+	PRINT(HEIGHT);
+
 	crow::spammer spammer;
 	crow::create_udpgate(12, udpport);
 
@@ -68,7 +73,9 @@ int main(int argc, char** argv)
 
 	int sts;
 
+	nos::println("start_spin");
 	crow::start_spin();
+	nos::println("start_spin ... ok");
 
 	for (;;)
 	{
