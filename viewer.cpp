@@ -62,7 +62,7 @@ int main(int argc, char** argv)
 	}
 
 	auto addr = crow::address(argv[1]);
-	crow::start_spin_with_select();
+	crow::start_spin();
 
 	cv::namedWindow("viewer", cv::WINDOW_NORMAL);
 
