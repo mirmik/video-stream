@@ -66,6 +66,11 @@ int main(int argc, char** argv)
 	PRINT(WIDTH);
 	PRINT(HEIGHT);
 
+	PRINT(argv[1]);
+	PRINT(argv[2]);
+	PRINT(argv[3]);
+	PRINT(argv[4]);
+
 	crow::spammer spammer;
 	crow::create_udpgate(12, udpport);
 
