@@ -16,15 +16,26 @@ licant.cxx_application("stream",
 		
 		"pthread",
 		"igris",
+		"rabbit",
 		"nos",
 		"crow"
-	]
+	],
+	cxx_flags="-fPIC -Wextra",
+	cc_flags="-fPIC",
 )
 
 licant.cxx_application("viewer",
-	sources=["viewer.cpp"],
-	include_paths=["/usr/include/opencv4"],
-	libs=["GL", "GLEW", "glfw", 
+	sources=["viewer.cpp",
+		"imgui/backends/imgui_impl_glfw.cpp",
+		"imgui/backends/imgui_impl_opengl3.cpp",
+		"imgui/imgui.cpp",
+		"imgui/imgui_tables.cpp",
+		"imgui/imgui_demo.cpp",
+		"imgui/imgui_widgets.cpp",
+		"imgui/imgui_draw.cpp",
+	],
+	include_paths=["/usr/include/opencv4", "./imgui", "./imgui/backends"],
+	libs=["GL", "GLEW", "glfw", "GLU", "stb",
 		"opencv_core",
 		"opencv_highgui",
 		"opencv_imgcodecs",
@@ -32,9 +43,40 @@ licant.cxx_application("viewer",
 		
 		"pthread",
 		"igris",
+		"rabbit",
 		"nos",
 		"crow"
-	]
+	],
+	cxx_flags="-fPIC -Wextra",
+	cc_flags="-fPIC",
+)
+
+
+licant.cxx_application("imgui-viewer",
+	sources=["imgui-viewer.cpp",
+		"imgui/backends/imgui_impl_glfw.cpp",
+		"imgui/backends/imgui_impl_opengl3.cpp",
+		"imgui/imgui.cpp",
+		"imgui/imgui_tables.cpp",
+		"imgui/imgui_demo.cpp",
+		"imgui/imgui_widgets.cpp",
+		"imgui/imgui_draw.cpp",
+	],
+	include_paths=["/usr/include/opencv4", "./imgui", "./imgui/backends"],
+	libs=["GL", "GLEW", "glfw", "GLU", "stb",
+		"opencv_core",
+		"opencv_highgui",
+		"opencv_imgcodecs",
+		"opencv_videoio",
+		
+		"pthread",
+		"igris",
+		"rabbit",
+		"nos",
+		"crow"
+	],
+	cxx_flags="-fPIC -Wextra",
+	cc_flags="-fPIC",
 )
 
 
@@ -51,9 +93,11 @@ licant.cxx_application("camera",
 		"igris",
 		"nos",
 		"crow"
-	]
+	],
+	cxx_flags="-fPIC -Wextra",
+	cc_flags="-fPIC",
 )
 
-licant.fileset("all", ["stream", "viewer", "camera"])
+licant.fileset("all", ["stream", "viewer", "imgui-viewer", "camera"])
 
 licant.ex("all")
