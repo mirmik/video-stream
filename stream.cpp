@@ -109,7 +109,7 @@ int main(int argc, char** argv)
 				params.push_back(cv::IMWRITE_JPEG_QUALITY);
 				params.push_back(quality);
 
-				sts = cv::imencode(".jpg", frame, buffer, params);
+				sts = cv::imencode(".jpg", gray, buffer, params);
 				
 			auto end_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
