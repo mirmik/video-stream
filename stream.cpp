@@ -8,8 +8,8 @@
 
 using namespace std::chrono_literals;
 
-int WIDTH;
-int HEIGHT;
+int WIDTH = 640;
+int HEIGHT = 480;
 
 class Camera
 {
@@ -24,6 +24,11 @@ public:
     {
         camerano = no;
     }
+
+    Camera(Camera &&other) = default;
+    Camera &operator=(Camera &&other) = default;
+    Camera &operator=(const Camera &other) = default;
+    Camera(const Camera &other) = default;
 
     void open_camera()
     {
