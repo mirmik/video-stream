@@ -51,6 +51,45 @@ licant.cxx_application("viewer",
 	cc_flags="-fPIC",
 )
 
+licant.cxx_application("glviewer",
+	sources=["glviewer.cpp"
+	],
+	include_paths=["/usr/include/opencv4"],
+	libs=["GL", "GLEW", "glfw", "GLU", "stb",
+		"opencv_core",
+		"opencv_highgui",
+		"opencv_imgcodecs",
+		"opencv_videoio",
+		
+		"pthread",
+		"igris",
+		"rabbit",
+		"nos",
+		"crow"
+	],
+	cxx_flags="-fPIC -Wextra",
+	cc_flags="-fPIC",
+)
+
+licant.cxx_application("synced-viewer",
+	sources=["synced-viewer.cpp"
+	],
+	include_paths=["/usr/include/opencv4"],
+	libs=["GL", "GLEW", "glfw", "GLU", "stb",
+		"opencv_core",
+		"opencv_highgui",
+		"opencv_imgcodecs",
+		"opencv_videoio",
+		
+		"pthread",
+		"igris",
+		"rabbit",
+		"nos",
+		"crow"
+	],
+	cxx_flags="-fPIC -Wextra",
+	cc_flags="-fPIC",
+)
 
 licant.cxx_application("imgui-viewer",
 	sources=["imgui-viewer.cpp",
@@ -75,8 +114,8 @@ licant.cxx_application("imgui-viewer",
 		"nos",
 		"crow"
 	],
-	cxx_flags="-fPIC -Wextra",
-	cc_flags="-fPIC",
+	cxx_flags="-fPIC -Wextra -g",
+	cc_flags="-fPIC -g",
 )
 
 
@@ -94,10 +133,10 @@ licant.cxx_application("camera",
 		"nos",
 		"crow"
 	],
-	cxx_flags="-fPIC -Wextra",
-	cc_flags="-fPIC",
+	cxx_flags="-fPIC -Wextra -g",
+	cc_flags="-fPIC -g",
 )
 
-licant.fileset("all", ["stream", "viewer", "imgui-viewer", "camera"])
+licant.fileset("all", ["stream", "viewer", "imgui-viewer", "camera", "glviewer", "synced-viewer"])
 
 licant.ex("all")

@@ -7,6 +7,8 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
+#include <rabbit/opengl/texture.h>
+#include <rabbit/opengl/drawer.h>
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <GLES2/gl2.h>
 #endif
@@ -24,6 +26,7 @@ static void glfw_error_callback(int error, const char* description)
     fprintf(stderr, "Glfw Error %d: %s\n", error, description);
 }
 
+            rabbit::opengl_texture texture;
 int main(int, char**)
 {
     // Setup window
@@ -96,6 +99,9 @@ int main(int, char**)
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+    //rabbit::opengl_drawer drawer;
+    //drawer.init_opengl_context();
+
     // Main loop
     while (!glfwWindowShouldClose(window))
     {
@@ -120,7 +126,30 @@ int main(int, char**)
             static float f = 0.0f;
             static int counter = 0;
 
+            //drawer.draw_line2d( {-1,-1}, {1,1});
+
             ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+
+            static uint8_t buffer[128*128*4];
+            for (int i = 0; i < 128*128*4; i++)
+                buffer[i] = 255;
+            
+    /*GLuint image_texture;
+	glGenTextures(1, &image_texture);
+	glBindTexture(GL_TEXTURE_2D, image_texture);
+
+	// Setup filtering parameters for display
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // This is required on WebGL for non power-of-two textures
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); // Same
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 128, 128, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);*/
+
+            texture.reference_buffer(buffer, 128, 128, GL_RED, GL_RED, GL_UNSIGNED_BYTE);
+            texture.bind();
+
+            ImGui::Image((void*)(intptr_t)texture.id(), ImVec2(128,128));
 
             ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
             ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
@@ -133,6 +162,7 @@ int main(int, char**)
                 counter++;
             ImGui::SameLine();
             ImGui::Text("counter = %d", counter);
+
 
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
             ImGui::End();
