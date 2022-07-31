@@ -92,12 +92,12 @@ int main(int argc, char **argv)
     crow::start_spin();
     nos::println("start_spin ... ok");
 
-    std::thread thr;
+    std::thread thr[2];
 
     for (int i = 0; i < 2; ++i)
     {
-        thr = std::thread(
-            [&]()
+        thr[i] = std::thread(
+            [&, i]()
             {
                 std::vector<uint8_t> buffer;
 
@@ -167,5 +167,9 @@ int main(int argc, char **argv)
                 }
             });
     }
+
+    thr[0].join();
+    thr[1].join();
+
     return 0;
 }
