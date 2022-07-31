@@ -43,6 +43,7 @@ std::string mode = "jpg";
 
 int main(int argc, char** argv)
 {
+	int quality = 100;
 	open_camera();
 	close_camera();
 
@@ -50,6 +51,11 @@ int main(int argc, char** argv)
 	{
 		nos::println("Usage: stream UDPPORT CAMERANO WIDTH HEIGHT");
 		exit(0);
+	}
+
+	if (argc >= 5)
+	{
+		quality = igris_atoi32(argv[5], 10, nullptr);
 	}
 
 	int udpport = igris_atoi32(argv[1], 10, nullptr);
@@ -99,7 +105,7 @@ int main(int argc, char** argv)
 			{
 				std::vector<int> params;
 				params.push_back(cv::IMWRITE_JPEG_QUALITY);
-				params.push_back(100);
+				params.push_back(quality);
 
 				sts = cv::imencode(".jpg", gray, buffer, params);
 				spammer.send({(const char*)buffer.data(), buffer.size()});
