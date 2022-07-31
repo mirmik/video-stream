@@ -104,6 +104,7 @@ int main(int argc, char** argv)
 			
 			cap >> frame;
 			cv::cvtColor(frame, gray, cv::COLOR_BGR2GRAY);
+			nos::println(gray.size(), gray.step);
 			
 			//split(gray, planes);  // planes[2] is the red channel
 
