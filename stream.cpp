@@ -60,11 +60,10 @@ int main(int argc, char **argv)
     spammer[1].bind(2);
 
     int quality = 100;
-    for (int i = 0; i < 2; ++i)
-    {
-        camera[0].open_camera();
-        camera[1].close_camera();
-    }
+    camera[0].open_camera();
+    camera[0].close_camera();
+    camera[1].open_camera();
+    camera[1].close_camera();
 
     if (argc < 5)
     {
