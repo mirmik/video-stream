@@ -16,7 +16,6 @@ class Camera
 public:
     bool is_open = false;
     cv::VideoCapture cap;
-    crow::spammer spammer;
 
     int camerano;
 
