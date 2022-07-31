@@ -2,9 +2,6 @@
 
 import licant
 
-#licant.include("imgui")
-licant.include("crow")
-
 licant.cxx_application("stream",
 	sources=["stream.cpp"],
 	include_paths=["/usr/include/opencv4"],
