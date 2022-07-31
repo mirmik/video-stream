@@ -100,12 +100,12 @@ int main(int argc, char** argv)
 
 			auto start_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
-			cv::Mat planes[3];
+			//cv::Mat planes[3];
 			
 			cap >> frame;
 			cv::cvtColor(frame, gray, cv::COLOR_BGR2GRAY);
 			
-			split(gray, planes);  // planes[2] is the red channel
+			//split(gray, planes);  // planes[2] is the red channel
 
 
 			if (mode == "jpg")
@@ -114,7 +114,7 @@ int main(int argc, char** argv)
 				params.push_back(cv::IMWRITE_JPEG_QUALITY);
 				params.push_back(quality);
 
-				sts = cv::imencode(".jpg", planes[1], buffer, params);
+				sts = cv::imencode(".jpg", gray, buffer, params);
 				
 			auto end_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
