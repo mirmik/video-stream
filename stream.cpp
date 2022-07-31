@@ -98,7 +98,7 @@ int main(int argc, char** argv)
 				open_camera();
 			}
 
-			auto start_ms = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+			auto start_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
 			cap >> frame;
 			cv::cvtColor(frame, gray, cv::COLOR_BGR2GRAY);
@@ -111,11 +111,11 @@ int main(int argc, char** argv)
 
 				sts = cv::imencode(".jpg", gray, buffer, params);
 				
-			auto end_ms = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+			auto end_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
 				spammer.send({(const char*)buffer.data(), buffer.size()});
 
-			auto end2_ms = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+			auto end2_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
 				nos::println(buffer.size(), start_ms, end_ms-start_ms, end2_ms-start_ms);
 			}
