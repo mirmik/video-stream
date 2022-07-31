@@ -67,9 +67,9 @@ int main(int argc, char **argv)
         camera[1].close_camera();
     }
 
-    if (argc < 4)
+    if (argc < 5)
     {
-        nos::println("Usage: stream UDPPORT WIDTH HEIGHT");
+        nos::println("Usage: stream UDPPORT WIDTH HEIGHT QUALITY");
         exit(0);
     }
 
