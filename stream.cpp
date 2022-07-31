@@ -1,10 +1,8 @@
 #include <opencv2/opencv.hpp>
 #include <crow/tower.h>
 #include <crow/nodes/spammer.h>
-
 #include <nos/print.h>
 #include <crow/gates/udpgate.h>
-
 #include <nos/print.h>
 #include <chrono>
 #include <thread>
@@ -47,7 +45,6 @@ int main(int argc, char** argv)
 {
 	open_camera();
 	close_camera();
-	crow::enable_diagnostic();
 
 	if (argc < 5)
 	{
