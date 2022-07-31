@@ -17,8 +17,8 @@ GLFWwindow *window = nullptr;
 rabbit::opengl_drawer drawer;
 rabbit::opengl_texture texture[2];
 
-int WIDTH = 640;
-int HEIGHT = 480;
+int WIDTH = 100;
+int HEIGHT = 100;
 
 cv::Mat frame[2];
 bool isready[2] = {false, false};
