@@ -103,13 +103,16 @@ int main(int argc, char** argv)
 			cap >> frame;
 			cv::cvtColor(frame, gray, cv::COLOR_BGR2GRAY);
 
+			// get one layer of the image
+			cv::Mat layer = gray(cv::Rect(0, 0, WIDTH, HEIGHT));
+
 			if (mode == "jpg")
 			{
 				std::vector<int> params;
 				params.push_back(cv::IMWRITE_JPEG_QUALITY);
 				params.push_back(quality);
 
-				sts = cv::imencode(".jpg", frame, buffer, params);
+				sts = cv::imencode(".jpg", layer, buffer, params);
 				
 			auto end_ms = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
