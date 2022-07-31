@@ -7,9 +7,6 @@ licant.include("crow")
 
 licant.cxx_application("stream",
 	sources=["stream.cpp"],
-	mdepends=[
-		"crow",
-		"crow.udpgate"],
 	include_paths=["/usr/include/opencv4"],
 	libs=["GL", "GLEW", "glfw", 
 		"opencv_core",
@@ -22,15 +19,13 @@ licant.cxx_application("stream",
 		
 		"pthread",
 		"igris",
-		"nos"
+		"nos",
+		"crow"
 	]
 )
 
 licant.cxx_application("viewer",
 	sources=["viewer.cpp"],
-	mdepends=[
-		"crow",
-		"crow.udpgate"],
 	include_paths=["/usr/include/opencv4"],
 	libs=["GL", "GLEW", "glfw", 
 		"opencv_core",
@@ -40,16 +35,14 @@ licant.cxx_application("viewer",
 		
 		"pthread",
 		"igris",
-		"nos"
+		"nos",
+		"crow"
 	]
 )
 
 
 licant.cxx_application("camera",
 	sources=["camera.cpp"],
-	mdepends=[
-		"crow",
-		"crow.udpgate"],
 	include_paths=["/usr/include/opencv4"],
 	libs=["GL", "GLEW", "glfw", 
 		"opencv_core",
@@ -59,7 +52,8 @@ licant.cxx_application("camera",
 		
 		"pthread",
 		"igris",
-		"nos"
+		"nos",
+		"crow"
 	]
 )
 
